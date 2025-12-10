@@ -81,6 +81,7 @@ async function consumeWithReader() {
     console.log('Received data:', value)
   }
 }
+```
 
 ### 3. Low-Level Control (Pipeline)
 
