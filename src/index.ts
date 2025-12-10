@@ -128,7 +128,6 @@ export function getLines(
               fieldLength = position - lineStart
             }
             break
-          // @ts-expect-error \r case below should fallthrough to \n:
           case ControlChars.CarriageReturn:
             discardTrailingNewline = true
           // eslint-disable-next-line no-fallthrough

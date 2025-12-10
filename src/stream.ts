@@ -12,7 +12,7 @@ export type { IterableReadableStreamInterface }
 export class IterableReadableStream<T>
   extends ReadableStream<T>
   implements IterableReadableStreamInterface<T> {
-  public reader: ReadableStreamDefaultReader<T>
+  public reader!: ReadableStreamDefaultReader<T>
 
   ensureReader() {
     if (!this.reader) {

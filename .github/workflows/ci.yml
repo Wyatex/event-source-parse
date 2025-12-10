@@ -46,6 +46,12 @@ jobs:
       - name: Run Test with Coverage
         run: bun run test:coverage
 
+      # 6. 上传覆盖率报告到 Codecov
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
       # 7. (可选) 上传覆盖率报告
       # 可以在 GitHub Actions 的 "Artifacts" 区域下载网页版报告
       - name: Upload Coverage Report
