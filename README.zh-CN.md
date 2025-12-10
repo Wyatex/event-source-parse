@@ -49,8 +49,6 @@ async function consumeStream() {
     body: JSON.stringify({ stream: true, /* ... */ }),
   })
 
-  if (!response.body) throw new Error('No body')
-
   // 将原始流转换为数据字符串的迭代器
   const stream = convertEventStreamToIterableReadableDataStream(response.body)
 
@@ -60,7 +58,32 @@ async function consumeStream() {
 }
 ```
 
-### 2. 低级控制（管道模式）
+### 2. 使用标准 ReadableStream
+
+如果你更喜欢使用标准的 Web Streams（例如用于管道传输或使用 `getReader`），可以使用 `convertEventStreamToReadableDataStream`。它返回一个 `ReadableStream<string>`。
+
+```typescript
+import { convertEventStreamToReadableDataStream } from '@wyatex/event-source-parse'
+
+async function consumeWithReader() {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    body: JSON.stringify({ stream: true, /* ... */ }),
+  })
+
+  // 返回一个 ReadableStream<string>
+  const dataStream = convertEventStreamToReadableDataStream(response.body)
+  const reader = dataStream.getReader()
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    console.log('收到数据:', value)
+  }
+}
+```
+
+### 3. 低级控制（管道模式）
 
 如果你需要完全控制解析过程（例如获取 `event` ID、`retry` 重试时间或自定义事件类型），可以手动组合解析器函数。
 
@@ -86,7 +109,7 @@ async function parseCustomStream(stream: ReadableStream) {
 }
 ```
 
-### 3. 处理元数据事件
+### 4. 处理元数据事件
 
 高级辅助函数允许你在不中断主数据流的情况下，通过回调钩入特定事件（如 `metadata`）。
 

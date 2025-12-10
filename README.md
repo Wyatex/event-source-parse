@@ -49,8 +49,6 @@ async function consumeStream() {
     body: JSON.stringify({ stream: true, /* ... */ }),
   })
 
-  if (!response.body) throw new Error('No body')
-
   // Convert the raw stream into an iterable of data strings
   const stream = convertEventStreamToIterableReadableDataStream(response.body)
 
@@ -60,7 +58,31 @@ async function consumeStream() {
 }
 ```
 
-### 2. Low-Level Control (Pipeline)
+### 2. Standard ReadableStream Usage
+
+If you prefer working with standard Web Streams (e.g., for piping to other streams or using `getReader`), use `convertEventStreamToReadableDataStream`. This returns a `ReadableStream<string>`.
+
+```typescript
+import { convertEventStreamToReadableDataStream } from '@wyatex/event-source-parse'
+
+async function consumeWithReader() {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    body: JSON.stringify({ stream: true, /* ... */ }),
+  })
+
+  // Returns a ReadableStream<string>
+  const dataStream = convertEventStreamToReadableDataStream(response.body)
+  const reader = dataStream.getReader()
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    console.log('Received data:', value)
+  }
+}
+
+### 3. Low-Level Control (Pipeline)
 
 If you need full control over the parsing process (e.g., accessing `event` ID, `retry` time, or custom event types), you can compose the parser functions manually.
 
@@ -86,7 +108,7 @@ async function parseCustomStream(stream: ReadableStream) {
 }
 ```
 
-### 3. Handling Metadata Events
+### 4. Handling Metadata Events
 
 The high-level helpers allow you to hook into specific events like `metadata` without disrupting the main data flow.
 
