@@ -1,9 +1,9 @@
-# @wyatex/event-source-parse
+# event-source-parse
 
 [简体中文](./README.zh-CN.md)
 
-[![NPM Version](https://img.shields.io/npm/v/@wyatex/event-source-parse?style=flat-square&color=cb3837)](https://www.npmjs.com/package/@wyatex/event-source-parse)
-[![License](https://img.shields.io/npm/l/@wyatex/event-source-parse?style=flat-square&color=blue)](https://github.com/wyatex/event-source-parse/blob/main/LICENSE)
+[![NPM Version](https://img.shields.io/npm/v/event-source-parse?style=flat-square&color=cb3837)](https://www.npmjs.com/package/event-source-parse)
+[![License](https://img.shields.io/npm/l/event-source-parse?style=flat-square&color=blue)](https://github.com/wyatex/event-source-parse/blob/main/LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/wyatex/event-source-parse/ci.yml?style=flat-square&label=build)](https://github.com/wyatex/event-source-parse/actions)
 [![Codecov](https://img.shields.io/codecov/c/github/wyatex/event-source-parse?style=flat-square)](https://codecov.io/gh/wyatex/event-source-parse)
 
@@ -22,16 +22,16 @@ This library is designed to consume `ReadableStream` or `AsyncIterable` and pars
 
 ```bash
 # npm
-npm install @wyatex/event-source-parse
+npm install event-source-parse
 
 # bun
-bun add @wyatex/event-source-parse
+bun add event-source-parse
 
 # pnpm
-pnpm add @wyatex/event-source-parse
+pnpm add event-source-parse
 
 # yarn
-yarn add @wyatex/event-source-parse
+yarn add event-source-parse
 ```
 
 ## 🚀 Usage
@@ -41,7 +41,7 @@ yarn add @wyatex/event-source-parse
 The easiest way to consume a stream is using the helper function `convertEventStreamToIterableReadableDataStream`. This converts a raw SSE stream directly into an async iterable of data strings.
 
 ```typescript
-import { convertEventStreamToIterableReadableDataStream } from '@wyatex/event-source-parse'
+import { convertEventStreamToIterableReadableDataStream } from 'event-source-parse'
 
 async function consumeStream() {
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -63,7 +63,7 @@ async function consumeStream() {
 If you prefer working with standard Web Streams (e.g., for piping to other streams or using `getReader`), use `convertEventStreamToReadableDataStream`. This returns a `ReadableStream<string>`.
 
 ```typescript
-import { convertEventStreamToReadableDataStream } from '@wyatex/event-source-parse'
+import { convertEventStreamToReadableDataStream } from 'event-source-parse'
 
 async function consumeWithReader() {
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -88,7 +88,7 @@ async function consumeWithReader() {
 If you need full control over the parsing process (e.g., accessing `event` ID, `retry` time, or custom event types), you can compose the parser functions manually.
 
 ```typescript
-import { getBytes, getLines, getMessages } from '@wyatex/event-source-parse'
+import { getBytes, getLines, getMessages } from 'event-source-parse'
 
 async function parseCustomStream(stream: ReadableStream) {
   // 1. Create a message handler

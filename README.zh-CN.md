@@ -1,9 +1,9 @@
-# @wyatex/event-source-parse
+# event-source-parse
 
 [English](./README.md)
 
-[![NPM Version](https://img.shields.io/npm/v/@wyatex/event-source-parse?style=flat-square&color=cb3837)](https://www.npmjs.com/package/@wyatex/event-source-parse)
-[![License](https://img.shields.io/npm/l/@wyatex/event-source-parse?style=flat-square&color=blue)](https://github.com/wyatex/event-source-parse/blob/main/LICENSE)
+[![NPM Version](https://img.shields.io/npm/v/event-source-parse?style=flat-square&color=cb3837)](https://www.npmjs.com/package/event-source-parse)
+[![License](https://img.shields.io/npm/l/event-source-parse?style=flat-square&color=blue)](https://github.com/wyatex/event-source-parse/blob/main/LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/wyatex/event-source-parse/ci.yml?style=flat-square&label=build)](https://github.com/wyatex/event-source-parse/actions)
 [![Codecov](https://img.shields.io/codecov/c/github/wyatex/event-source-parse?style=flat-square)](https://codecov.io/gh/wyatex/event-source-parse)
 
@@ -22,16 +22,16 @@
 
 ```bash
 # npm
-npm install @wyatex/event-source-parse
+npm install event-source-parse
 
 # bun
-bun add @wyatex/event-source-parse
+bun add event-source-parse
 
 # pnpm
-pnpm add @wyatex/event-source-parse
+pnpm add event-source-parse
 
 # yarn
-yarn add @wyatex/event-source-parse
+yarn add event-source-parse
 ```
 
 ## 🚀 使用方法
@@ -41,7 +41,7 @@ yarn add @wyatex/event-source-parse
 消费流数据最简单的方法是使用辅助函数 `convertEventStreamToIterableReadableDataStream`。它可以直接将原始 SSE 流转换为由 `data` 字符串组成的异步可迭代对象（Async Iterable）。
 
 ```typescript
-import { convertEventStreamToIterableReadableDataStream } from '@wyatex/event-source-parse'
+import { convertEventStreamToIterableReadableDataStream } from 'event-source-parse'
 
 async function consumeStream() {
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -63,7 +63,7 @@ async function consumeStream() {
 如果你更喜欢使用标准的 Web Streams（例如用于管道传输或使用 `getReader`），可以使用 `convertEventStreamToReadableDataStream`。它返回一个 `ReadableStream<string>`。
 
 ```typescript
-import { convertEventStreamToReadableDataStream } from '@wyatex/event-source-parse'
+import { convertEventStreamToReadableDataStream } from 'event-source-parse'
 
 async function consumeWithReader() {
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -88,7 +88,7 @@ async function consumeWithReader() {
 如果你需要完全控制解析过程（例如获取 `event` ID、`retry` 重试时间或自定义事件类型），可以手动组合解析器函数。
 
 ```typescript
-import { getBytes, getLines, getMessages } from '@wyatex/event-source-parse'
+import { getBytes, getLines, getMessages } from 'event-source-parse'
 
 async function parseCustomStream(stream: ReadableStream) {
   // 1. 创建消息处理器
