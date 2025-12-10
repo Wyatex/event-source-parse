@@ -1,0 +1,57 @@
+name: CI
+
+# 触发机制：
+# 1. push: 推送代码到 main 或 master 分支时触发
+# 2. pull_request: 针对 main 或 master 分支创建/更新 PR 时触发
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test-and-lint:
+    name: Lint & Test Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 拉取代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 配置 Bun 环境
+      # 官方提供的 Action，会自动配置好 Bun
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      # 3. 安装依赖
+      # 使用 --frozen-lockfile 确保安装的版本与 bun.lockb 完全一致 (类似 npm ci)
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # 4. 执行 Lint 检查
+      - name: Run Lint
+        run: bun run lint
+
+      # 5. 执行类型检查 (强烈建议)
+      # 虽然你只提了lint和test，但在TypeScript项目中，类型检查通常是必须的
+      # 因为 ESLint 不一定会报类型错误
+      - name: Run Type Check
+        run: bun run typecheck
+
+      # 6. 执行测试并生成覆盖率
+      # 对应 package.json 中的 "test:coverage": "vitest run --coverage"
+      - name: Run Test with Coverage
+        run: bun run test:coverage
+
+      # 7. (可选) 上传覆盖率报告
+      # 可以在 GitHub Actions 的 "Artifacts" 区域下载网页版报告
+      - name: Upload Coverage Report
+        if: always() # 即使测试失败也尝试上传报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
