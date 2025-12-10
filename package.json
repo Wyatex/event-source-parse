@@ -1,7 +1,7 @@
 {
   "name": "@wyatex/event-source-parse",
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A robust, zero-dependency parser for Server-Sent Events (SSE) streams.",
   "author": "Wyatex <wyatex@qq.com>",
   "license": "MIT",
