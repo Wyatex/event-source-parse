@@ -31,7 +31,7 @@
     "dev": "tsdown --watch",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "bun run build"
   },
