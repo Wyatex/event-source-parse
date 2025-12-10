@@ -1,22 +1,31 @@
 {
   "name": "@wyatex/event-source-parse",
   "type": "module",
-  "version": "1.0.0",
-  "description": "A starter for creating a TypeScript package.",
+  "version": "1.0.1",
+  "description": "A robust, zero-dependency parser for Server-Sent Events (SSE) streams.",
   "author": "Wyatex <wyatex@qq.com>",
   "license": "MIT",
-  "homepage": "https://github.com/author/library#readme",
+  "homepage": "https://github.com/Wyatex/event-source-parse#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/author/library.git"
+    "url": "git+https://github.com/Wyatex/event-source-parse.git"
   },
   "bugs": {
-    "url": "https://github.com/author/library/issues"
+    "url": "https://github.com/Wyatex/event-source-parse/issues"
   },
+  "keywords": [
+    "sse",
+    "server-sent events",
+    "event source",
+    "eventsource",
+    "streaming",
+    "event-stream",
+    "event stream"
+  ],
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./package.json": "./package.json"
   },
